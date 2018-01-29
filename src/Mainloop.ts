@@ -1,4 +1,6 @@
-const NOOP = (): void => (null);
+const NOOP = (): void => {
+    return;
+};
 
 class Mainloop {
     private simulationTimestep: number = 1000 / 60;
@@ -15,7 +17,7 @@ class Mainloop {
     private started: boolean = false;
     private panic: boolean = false;
 
-    private requestAnimationFrame: (callback: (delta?: number) => void) => any;
+    private requestAnimationFrame: (callback: (delta: number) => void) => any;
     private cancelAnimationFrame: (handle: number) => void;
     private requestAnimationFrameId: number;
 
@@ -81,13 +83,13 @@ class Mainloop {
         if (!this.started) {
             this.started = true;
 
-            this.requestAnimationFrameId = this.requestAnimationFrame((timestamp: number): void => {
+            this.requestAnimationFrameId = this.requestAnimationFrame((delta: number): void => {
                 this.draw(1);
 
                 this.running = true;
 
-                this.lastFrameTime = timestamp;
-                this.lastFpsUpdate = timestamp;
+                this.lastFrameTime = delta;
+                this.lastFpsUpdate = delta;
                 this.framesSinceLastFpsUpdate = 0;
 
                 this.requestAnimationFrameId = this.requestAnimationFrame(this.animate);
@@ -148,12 +150,12 @@ class Mainloop {
         this.panic = false;
     }
 
-    private createRequestAnimationFrameFallback(): (callback: (delta?: number) => void) => NodeJS.Timer {
+    private createRequestAnimationFrameFallback(): (callback: (delta: number) => void) => NodeJS.Timer {
         let lastTimestamp: number = Date.now();
-        let now: number = null;
-        let timeout: number = null;
+        let now: number = 0;
+        let timeout: number = 0;
 
-        return (callback: (delta?: number) => void): NodeJS.Timer => {
+        return (callback: (delta: number) => void): NodeJS.Timer => {
             now = Date.now();
 
             timeout = Math.max(0, this.simulationTimestep - (now - lastTimestamp));
