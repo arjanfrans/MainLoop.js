@@ -2,7 +2,7 @@
   "name": "@arjanfrans/mainloop",
   "version": "3.0.0",
   "description": "",
-  "main": "dist/mainloop.js",
+  "main": "dist/Mainloop.js",
   "files": [
     "dist"
   ],
