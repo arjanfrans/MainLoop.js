@@ -5,7 +5,7 @@
   "main": "dist/Mainloop.js",
   "types": "dist/Mainloop.d.ts",
   "files": [
-    "src"
+      "dist"
   ],
   "scripts": {
     "watch": "tsc -w",
